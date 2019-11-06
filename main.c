@@ -1,32 +1,22 @@
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 int		main(void)
 {
 	char	*line;
 	int		fd;
+	int i = 0;
 
 	// openning file descrioptor
 	fd = open("res.txt", O_RDONLY);
 
 	//testing
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-	get_next_line(fd, &line);
-	printf("line[0]='%s'\n", line);
-
-
+	while ((i = get_next_line(fd, &line)))
+	{
+		printf("%d* %s\n",i, line);
+		free(line);
+	}
+		printf("%d* %s\n",i, line);
+		free(line);
 	// closing file descriptor
 	close(fd);
 }
