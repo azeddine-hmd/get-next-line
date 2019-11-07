@@ -18,6 +18,13 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+typedef struct	l_list
+{
+	char	*buffer;
+	l_list	*next;
+	int	fd;
+}		l_list;
+
 int		get_length(const char *s);
 int		get_next_line(int fd, char **line);
 char	*str_join(char *buffer, char *tmp);

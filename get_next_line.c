@@ -14,12 +14,14 @@
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*buffer;
+	static l_list	*buffers;
 	char		*tmp;
+	char		*buffer;
 	char		*free_after_buffer;
-	int			read_return;
-	int			line_return;
+	int		read_return;
+	int		line_return;
 
+	buffer = get_fd_buffer(fd, &buffers);
 	if (!line)
 		return (-1);
 	while (!is_newline(buffer))
@@ -44,9 +46,40 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	else if (line_return == 0)
 	{
-		if (buffer)
-			free(buffer);
+		free(buffer);
+		buffer = head;
 		return (0);
 	}
 	return (1);
+}
+
+char		*get_fd_buffer(int fd, l_list **buffers)
+{
+	l_list		*head;
+
+	head = *buffers;
+	if (!head)
+		return (l_lstadd_front(buffers, fd));
+	while (head)
+	{
+		if (head->fd == fd)
+			return (head->buffer);
+		head = head->next;
+	}
+	return (l_lstadd_back(buffers, fd));
+}
+
+void	ft_lstadd_back(t_list **alst, t_list *new)
+{
+	if (!*alst)
+		ft_lstadd_front(alst, new);
+	else
+		//(ft_lstlast(*alst))->next = new;
+}
+
+void	ft_lstadd_front(t_list **alst, t_list *new)
+{
+	if (*alst)
+		new->next = *alst;
+	*alst = new;
 }
