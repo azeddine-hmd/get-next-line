@@ -6,7 +6,7 @@
 /*   By: ahamdaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 20:07:54 by ahamdaou          #+#    #+#             */
-/*   Updated: 2019/11/06 05:02:12 by ahamdaou         ###   ########.fr       */
+/*   Updated: 2019/11/10 06:52:23 by ahamdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,19 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-#include <fcntl.h>
-#include <stdio.h>
 
-typedef struct	l_list
+typedef	struct	s_list
 {
-	char	*buffer;
-	l_list	*next;
-	int	fd;
-}		l_list;
+	char			*buffer;
+	struct s_list	*next;
+	int				fd;
+}				t_list;
 
-int		get_length(const char *s);
-int		get_next_line(int fd, char **line);
-char	*str_join(char *buffer, char *tmp);
-int		is_newline(char *str);
-char	*sub_str(char const *s, unsigned int start);
-int		get_line(char **line, char **buffer);
+int				get_length(const char *s);
+int				get_next_line(int fd, char **line);
+char			*str_join(char *buffer, char *tmp);
+int				is_newline(char *str);
+char			*sub_str(char const *s, unsigned int start);
+int				get_line(char **line, char **buffer);
 
 #endif

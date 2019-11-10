@@ -6,49 +6,49 @@
 /*   By: ahamdaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 19:54:36 by ahamdaou          #+#    #+#             */
-/*   Updated: 2019/11/06 16:08:09 by ahamdaou         ###   ########.fr       */
+/*   Updated: 2019/11/10 06:36:23 by ahamdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		get_length(const char *s)
+int			get_length(const char *s)
 {
 	int i;
-  
+
 	i = 0;
 	while (s[i])
 		i++;
 	return (i);
 }
 
-char	*str_join(char *buffer, char *tmp)
+char		*str_join(char *buffer, char *tmp)
 {
-    int        i;
-    int        j;
-    char    *str;
-    int        str_length;
+	int		i;
+	int		j;
+	char	*str;
+	int		str_length;
 
-    if (!buffer)
-        return (tmp);
-    str_length = get_length(buffer) + get_length(tmp);
-    str = (char*)malloc(str_length + 1);
-    if (!str)
-        return (NULL);
-    i = 0;
-    j = -1;
-    while (buffer[++j] != '\0')
-        str[i++] = buffer[j];
-    j = -1;
-    while (tmp[++j] != '\0')
-        str[i++] = tmp[j];
-    str[i] = '\0';
+	if (!buffer)
+		return (tmp);
+	str_length = get_length(buffer) + get_length(tmp);
+	str = (char*)malloc(str_length + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = -1;
+	while (buffer[++j] != '\0')
+		str[i++] = buffer[j];
+	j = -1;
+	while (tmp[++j] != '\0')
+		str[i++] = tmp[j];
+	str[i] = '\0';
 	if (tmp)
 		free(tmp);
-    return (str);
+	return (str);
 }
 
-int		is_newline(char *str)
+int			is_newline(char *str)
 {
 	int i;
 
@@ -61,7 +61,7 @@ int		is_newline(char *str)
 	return (0);
 }
 
-char	*sub_str(char const *s, unsigned int start)
+char		*sub_str(char const *s, unsigned int start)
 {
 	char			*sub_str;
 	unsigned int	i;
@@ -82,7 +82,7 @@ char	*sub_str(char const *s, unsigned int start)
 	return (sub_str);
 }
 
-int		get_line(char **line, char **buffer)
+int			get_line(char **line, char **buffer)
 {
 	int		i;
 	int		j;
@@ -97,12 +97,9 @@ int		get_line(char **line, char **buffer)
 		is_lastline = 0;
 	if (!(*line = (char*)malloc(i + 1)))
 		return (-1);
-	j = 0;
-	while (j < i)
-	{
+	j = -1;
+	while (++j < i)
 		*(*line + j) = *(*buffer + j);
-		j++;
-	}
 	*(*line + j) = '\0';
 	tmp = sub_str(*buffer, i + 1);
 	if (*buffer)
