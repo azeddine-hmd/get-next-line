@@ -6,7 +6,7 @@
 /*   By: ahamdaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 20:07:45 by ahamdaou          #+#    #+#             */
-/*   Updated: 2019/11/10 06:50:41 by ahamdaou         ###   ########.fr       */
+/*   Updated: 2019/11/11 16:47:43 by ahamdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_list		*l_lstnew(int fd)
 {
 	t_list	*node;
 
-	node = (t_list*)malloc(sizeof(t_list));
+	if (!(node = (t_list*)malloc(sizeof(t_list))))
+		return (NULL);
 	node->buffer = NULL;
 	node->fd = fd;
 	node->next = NULL;
@@ -29,7 +30,8 @@ char		**get_fd_buffer(int fd, t_list **buffers)
 
 	if (!*buffers)
 	{
-		*buffers = l_lstnew(fd);
+		if (!(*buffers = l_lstnew(fd)))
+			return (NULL);
 		return (&((*buffers)->buffer));
 	}
 	head = *buffers;
@@ -41,7 +43,8 @@ char		**get_fd_buffer(int fd, t_list **buffers)
 	}
 	if (head->fd == fd)
 		return (&(head->buffer));
-	head->next = l_lstnew(fd);
+	if (!(head->next = l_lstnew(fd)))
+		return (NULL);
 	return (&((head->next)->buffer));
 }
 
@@ -53,7 +56,8 @@ int			norminette_helper(char **line, char **buffer, char *tmp, int rr)
 		free(tmp);
 	if (!*buffer)
 	{
-		*buffer = (char*)malloc(1);
+		if (!(*buffer = (char*)malloc(1)))
+			return (-1);
 		*(*buffer) = '\0';
 	}
 	if ((line_return = get_line(line, buffer)) == -1)
@@ -77,10 +81,12 @@ int			get_next_line(int fd, char **line)
 
 	if (!line)
 		return (-1);
-	buffer = get_fd_buffer(fd, &buffers);
+	if (!(buffer = get_fd_buffer(fd, &buffers)))
+		return (-1);
 	while (!is_newline(*buffer))
 	{
-		tmp = (char*)malloc(BUFFER_SIZE + 1);
+		if (!(tmp = (char*)malloc(BUFFER_SIZE + 1)))
+			return (-1);
 		if (!(read_return = read(fd, tmp, BUFFER_SIZE)))
 			break ;
 		else if (read_return == -1)
