@@ -1,2 +1,0 @@
-cp /Users/ahamdaou/42cursus/vogsphere/get_next_line/* ./
-git add * && git commit -m "updating" && git push
