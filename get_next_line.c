@@ -6,11 +6,12 @@
 /*   By: ahamdaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 20:07:45 by ahamdaou          #+#    #+#             */
-/*   Updated: 2019/11/14 08:30:40 by ahamdaou         ###   ########.fr       */
+/*   Updated: 2019/11/17 17:23:47 by ahamdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 t_list		*l_lstnew(int fd)
 {
@@ -62,6 +63,7 @@ void		l_lstremove(int fd, t_list **buffers)
 		tmp = (*buffers);
 		(*buffers) = (*buffers)->next;
 		free(tmp);
+		return ;
 	}
 	node = *buffers;
 	while (node->next)
@@ -70,7 +72,8 @@ void		l_lstremove(int fd, t_list **buffers)
 		{
 			node_left = node;
 			node = node->next;
-			free(node->buffer);
+			if (node->buffer)
+				free(node->buffer);
 			tmp = node;
 			node = node->next;
 			tmp->next = NULL;
@@ -88,14 +91,6 @@ int			norm(t_list **bs, char **li, char **buf, int rr, int fd)
 
 	if (rr == -1)
 		return (-1);
-	if (rr == 0 && !*buf)
-	{
-		if (!(*li = (char*)malloc(1)))
-			return (-1);
-		*(*li) = '\0';
-		l_lstremove(fd, bs);
-		return (0);
-	}
 	if ((line_return = get_line(li, buf)) == -1)
 		return (-1);
 	else if (line_return == 0)
@@ -111,7 +106,7 @@ int			get_next_line(int fd, char **line)
 	static t_list	*buffers;
 	char			**buffer;
 	char			*tmp;
-	char			*free_after_buffer;
+	char			*tmp_pointer;
 	int				read_return;
 
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
@@ -126,10 +121,9 @@ int			get_next_line(int fd, char **line)
 	{
 		if (!(read_return = read(fd, tmp, BUFFER_SIZE)) || read_return == -1)
 			break ;
-		free_after_buffer = *buffer;
+		tmp_pointer = *buffer;
 		*buffer = str_join(*buffer, tmp);
-		if (free_after_buffer)
-			free(free_after_buffer);
+		free(tmp_pointer);
 	}
 	free(tmp);
 	return (norm(&buffers, line, buffer, read_return, fd));

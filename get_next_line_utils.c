@@ -6,7 +6,7 @@
 /*   By: ahamdaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 19:54:36 by ahamdaou          #+#    #+#             */
-/*   Updated: 2019/11/14 08:10:17 by ahamdaou         ###   ########.fr       */
+/*   Updated: 2019/11/17 15:38:02 by ahamdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,9 @@ int			get_line(char **line, char **buffer)
 	while (++j < i)
 		*(*line + j) = *(*buffer + j);
 	*(*line + j) = '\0';
-	if (*(*buffer) == '\0')
-	{
-		free(*buffer);
-		return (0);
-	}
 	tmp = sub_str(*buffer, i + 1);
+	if (*(*buffer) == '\0')
+		return (0);
 	if (*buffer)
 		free(*buffer);
 	*buffer = tmp;

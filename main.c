@@ -9,7 +9,7 @@ int		main(void)
 	int		r;
 
 	fd = open("main.c", O_RDONLY);
-	printf("\033[0;32m<======[main.c]======>\033[0m\n");
+	printf("\033[0;32m<======[main.c]======>\033[0m\n\n");
 	while ((r = get_next_line(fd, &line)))
 	{
 		printf("%d|%s\n", r, line);
@@ -17,7 +17,7 @@ int		main(void)
 	}
 	printf("%d|%s\n", r, line);
 	free(line);
-
 	close(fd);
+
 	return (0);
 }
